@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Stylish Profile Page with Navbar</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Optional: Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+</head>
+<body class="bg-gradient-to-tr from-gray-900 via-blue-900 to-purple-900 min-h-screen flex flex-col items-center">
+
+  <!-- Navbar -->
+  <nav class="w-full  flex items-center justify-between px-5 py-3 bg-white/10 backdrop-blur-xl shadow-lg mb-10 border border-white/20">
+    <div class="flex items-center ">
+      <i class=" text-blue-400 text-2xl"></i>
+      <h1 class="text-white text-2xl font-bold tracking-tight">Mini Project</h1>
+    </div>
+    <div class="flex items-center gap-4">
+      <a href="/" class="px-5 py-2 bg-gradient-to-r from-green-400 to-blue-500 hover:from-blue-500 hover:to-green-500 text-white font-semibold rounded-lg shadow transition duration-200">
+        Create New Account
+      </a>
+      <a href="/logout" class="px-5 py-2 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-purple-700 hover:to-pink-700 text-white font-semibold rounded-lg shadow transition duration-200">
+        Logout
+      </a>
+    </div>
+  </nav>
+
+  <!-- Profile Card -->
+  <div class=" backdrop-blur-md rounded-3xl shadow-xl border border-white/20 max-w-2xl w-full p-8 mb-10 flex items-center gap-8 transition duration-300 hover:scale-[1.02]">
+    <img src="/images/uploads/<%= user.profileImage %>" alt="Profile" class="w-12 h-22 rounded-full  border-blue-600 shadow-lg">
+    <div>
+      <h3 class="text-2xl font-bold text-white mb-2 flex items-center gap-2">
+        Hello, <span class="text-blue-300"><%= user.name %></span> <span>👋</span>
+      </h3>
+      <!-- <p class="text-gray-300">Web Developer | MongoDB & Node.js Enthusiast</p> -->
+      <a href="/editprofile" class="mt-3 px-5 py-1 bg-gradient-to-r from-purple-600 to-blue-600 text-white uppercase rounded-xl shadow hover:from-blue-700 hover:to-purple-700 transition">
+        Edit Profile
+      </a>
+    </div>
+  </div>
+
+  <!-- Create New Post -->
+  <form action="/post" method="post" class="bg-white/10 backdrop-blur-xl rounded-2xl shadow-lg border border-white/10 w-full max-w-2xl p-6 mb-10">
+    <h3 class="text-xl text-white mb-4 font-semibold flex items-center gap-2">
+      <i class="fa-solid fa-pen"></i> What's on your mind?
+    </h3>
+    <textarea class="w-full rounded-xl p-4 text-gray-900 text-lg bg-white/80 focus:outline-none focus:ring-2 focus:ring-blue-400 transition resize-none mb-4" rows="3" placeholder="Share your thoughts..." name="content"></textarea>
+    <button type="submit" class="px-5 py-2 bg-blue-500 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-md transition">
+      Create New Post
+    </button>
+  </form>
+
+  <!-- Posts Section -->
+  <% user.posts.reverse().forEach(function(post){ %>
+  <div class="w-full max-w-2xl space-y-6">
+    <!-- Example post -->
+  
+    <div class="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/10 shadow p-6 mb-4 transition hover:scale-105">
+      <div class="flex items-center gap-3 mb-3">
+        <img src="/images/uploads/<%= user.profileImage %>" alt="@someusername" class="w-10 h-10 rounded-full border-2 border-blue-400">
+        <span class="font-semibold text-blue-300 text-lg"><%= user.username %></span>
+        <span class="text-xs text-gray-400 ml-auto">2m ago</span>
+      </div>
+      <p class="text-white text-base mb-4"><%= post.content %></p>
+      <div class="flex gap-6">
+        <small class="mt-2 inline-block"><%= post.likes.length %> Likes</small>
+        <a class="flex items-center gap-1 text-blue-300 " href="/like/<%= post._id %>">
+          
+          <%= post.likes.indexOf(user._id) === -1 ? "Like" : "Unlike" %>
+        </a>
+        <a class="flex items-center gap-1 text-gray-300 hover:underline" href="/edit/<%= post._id %>">
+          <i class="fa-solid fa-pen"></i>
+          Edit
+        </a>
+      </div>
+    </div>
+    <!-- Add more posts by duplicating the block above -->
+  </div>
+  <% }) %>
+
+</body>
+</html>
